@@ -26,7 +26,8 @@
                 "aid": 3,
                 "genre": "Rock"
             }   
-        ]
+        ],
+        "description" : "test description"
         
     },
     {
@@ -49,7 +50,8 @@
                 "aid": 2,
                 "genre": "Rock"
             }
-        ]
+        ],
+        "description" : "test description"
         
     }
   

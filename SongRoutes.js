@@ -18,6 +18,16 @@ function SongRoutes(app){
         //order by release date after db established
         res.json(db.Songs)
     })
+    
+    app.get("/api/song/:sid", (req,res) => {
+        const {sid} = req.params
+        const result = db.Songs.find((item) => (item._id) === parseInt(sid))
+        res.json(result)
+    })
+
+    app.get("/api/comment/:sid",(req,res) => {
+        
+    })
 }
 
 export default SongRoutes
