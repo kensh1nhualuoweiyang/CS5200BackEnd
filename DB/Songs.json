@@ -1,0 +1,48 @@
+[
+    {
+        "_id": 1,
+        "title": "Example Song Name 1",
+        "author": "Example author name",
+        "aid": 2,
+        "genre": "Rock",
+        "lyrics":"",
+        "likes":0
+    },
+    {
+        "_id": 2,
+        "title": "Example Song Name 2",
+        "author": "Example author name",
+        "aid": 3,
+        "genre": "Rock",
+        "lyrics":"",
+        "likes":0
+        
+    },
+    {
+        "_id": 4,
+        "title": "Example Song Name 3",
+        "author": "Example author name",
+        "aid": 4,
+        "genre": "Rock",
+        "lyrics":"",
+        "likes":0
+    },
+    {
+        "_id": 5,
+        "title": "Example Song Name 1",
+        "author": "Example author name",
+        "aid": 5,
+        "genre": "Pop",
+        "lyrics":"",
+        "likes":0
+    },
+    {
+        "_id": 6,
+        "title": "Example Song Name 2",
+        "author": "Example author name",
+        "aid": 5,
+        "genre": "Pop",
+        "lyrics":"",
+        "likes":0
+    }
+]
