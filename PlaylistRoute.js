@@ -52,9 +52,8 @@ function PlaylistRoute(app) {
 
     app.post("/api/playlist",(req,res) => {
         const item = req.body;
-        console.log(item);
         const {dbConnection} = req
-        if(!item.public || !item.name || !item.description){
+        if(item.public===null || !item.name || !item.description){
             res.status(500).json({error:"Invalid/Empty Field Detected"})
             return;
         }
@@ -67,6 +66,27 @@ function PlaylistRoute(app) {
             else{
                 res.json(result)
             }
+        })
+    })
+
+
+    app.put("/api/addToPlaylist/:pid/:sid",(req,res) => {
+        const {pid,sid} = req.params
+        const {dbConnection} = req
+        const query = "insert into playlist_song_containment(pid,sid) values(?,?)"
+        dbConnection.execute(query,[pid,sid],(err,result) =>{
+            dbConnection.unprepare(query)
+            res.json(result);
+        })
+    })
+
+    app.delete("/api/playlistSong",(req,res) =>{
+        const {pid,id} = req.body
+        const {dbConnection} = req
+        const query = "delete from playlist_song_containment where pid = ? and sid = ?"
+        dbConnection.execute(query,[pid,id],(err,result) =>{
+            dbConnection.unprepare(query)
+            res.json(result);
         })
     })
 }
