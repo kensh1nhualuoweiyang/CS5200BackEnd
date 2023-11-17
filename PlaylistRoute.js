@@ -1,12 +1,34 @@
-import DB from "./DB/index.js"
-
 
 function PlaylistRoute(app) {
 
-    app.get("/api/playlistdetail/:pid", (req, res) => {
+    app.get("/api/playlistSongDetail/:pid", (req, res) => {
         const { pid } = req.params
-        const detail = DB.PlaylistDetail.find((item) => item._id === parseInt(pid))
-        res.json(detail)
+        const connection = req.dbConnection
+        const query = "call get_playlist_song_detail(?)"
+        connection.execute(query,[pid],(err,result)=>{
+            connection.unprepare(query)
+            res.json(result)
+        })
+    })
+
+    app.get("/api/playlistDetail/:pid", (req, res) => {
+        const { pid } = req.params
+        const connection = req.dbConnection
+        const query = "select * from playlist where id = ? "
+        connection.execute(query,[pid],(err,result)=>{
+            connection.unprepare(query)
+            res.json(result)
+        })
+    })
+
+    app.delete("/api/playlist/:sid",(req,res) =>{
+        const {sid} = req.params
+        const {dbConnection} = req
+        const query = "delete from playlist where id = ?"
+        dbConnection.execute(query,[sid],(err,result) =>{
+            dbConnection.unprepare(query)
+            res.sendStatus(204)
+        })
     })
 
     app.put("/api/playlistViewUpdate/:pid", (req, res) => {
@@ -15,7 +37,7 @@ function PlaylistRoute(app) {
         const query = "update playlist set views = views +1 where id = ?"
         connection.execute(query, [pid], (err, result) => {
             connection.unprepare(query)
-            res.sendStatus(204);
+            res.sendStatus(200);
         })
     })
 
@@ -25,6 +47,26 @@ function PlaylistRoute(app) {
         connection.execute(query, (err, result) => {
             connection.unprepare(query)
             res.json(result);
+        })
+    })
+
+    app.post("/api/playlist",(req,res) => {
+        const item = req.body;
+        console.log(item);
+        const {dbConnection} = req
+        if(!item.public || !item.name || !item.description){
+            res.status(500).json({error:"Invalid/Empty Field Detected"})
+            return;
+        }
+        const query = "call create_playlist(?,?,?,?)"
+        dbConnection.execute(query,[item.name,item.public,item.userName,item.description],(err,result) =>{
+            if(err){
+                console.log(err);
+                res.status(500).json({error:err.sqlMessage})
+            }
+            else{
+                res.json(result)
+            }
         })
     })
 }

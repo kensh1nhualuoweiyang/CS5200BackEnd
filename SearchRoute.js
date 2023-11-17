@@ -4,20 +4,42 @@ function SearchRoute(app) {
 
     app.get("/api/searchSongs/:target",(req,res) =>{
         const {target} = req.params
-        const response = db.Songs.filter(item => item.title.toLowerCase().includes(target.toLowerCase()))
-        res.json(response)
+        const {dbConnection} = req
+        const query = "select * from songs where title like ?";
+        dbConnection.execute(query, [`%${target}%`], (err, result) => {
+            dbConnection.unprepare(query);
+            res.json(result);
+        });
     })
 
     app.get("/api/searchPlaylist/:target",(req,res) =>{
         const {target} = req.params
-        const response = db.PlaylistDetail.filter(item => item.title.toLowerCase().includes(target.toLowerCase()) )
-        res.json(response)
+        const {dbConnection} = req
+        const query = "select * from playlist where name like ? and public = 1";
+        dbConnection.execute(query, [`%${target}%`], (err, result) => {
+            dbConnection.unprepare(query);
+            res.json(result);
+        });
+      
     })
     
     app.get("/api/searchUsers/:target",(req,res) =>{
         const {target} = req.params
-        const response = db.User.filter(item=>item.userName.toLowerCase().includes(target.toLowerCase()))
-        res.json(response)
+        const {dbConnection} = req
+        const query = "select * from users where userName like ?";
+        dbConnection.execute(query, [`%${target}%`], (err, result) => {
+            dbConnection.unprepare(query);
+            res.json(result);
+        });
+    })
+
+    app.get("/api/availableGenre", (req,res) => {
+        const connection = req.dbConnection
+        const query = "select * from genre"
+        connection.execute(query,(err,result) => {
+            connection.unprepare(query)
+            res.json(result)
+        })
     })
 }
 export default SearchRoute
