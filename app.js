@@ -7,7 +7,6 @@ import SearchRoute from "./SearchRoute.js"
 import UserRoutes from "./UserRoute.js"
 import mysql from "mysql2"
 import readline from "readline"
-import { resolve } from "path"
 const app = express()
 
 const rl = readline.createInterface({

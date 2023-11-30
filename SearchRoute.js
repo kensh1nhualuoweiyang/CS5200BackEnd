@@ -1,4 +1,4 @@
-import db from "./DB/index.js"
+
 
 function SearchRoute(app) {
 
