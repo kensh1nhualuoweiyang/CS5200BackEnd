@@ -132,11 +132,14 @@ function UserRoutes(app) {
     app.put("/api/likeSong/:sid",(req,res) => {
         const {sid} = req.params
         const {dbConnection} = req
-        console.log(sid);
         const query = "insert into user_like_songs(id,userName) values(?,?)"
         dbConnection.execute(query,[sid,currentUser],(err,result) =>{
             dbConnection.unprepare(query)
-            res.sendStatus(204)
+        })
+        const updateQuery = "update songs set likes = likes + 1 where id = ?"
+        dbConnection.execute(updateQuery,[sid],(err,result) =>{
+            dbConnection.unprepare(updateQuery)
+            res.json(204)
         })
     })
 
@@ -145,7 +148,7 @@ function UserRoutes(app) {
         const query = "select id from user_like_songs where userName = ?"
         dbConnection.execute(query,[currentUser],(err,result) =>{
             dbConnection.unprepare(query)
-            res.sendStatus(204)
+            res.json(result)
         })
     })
 }

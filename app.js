@@ -1,6 +1,5 @@
 import express from "express"
 import cors from "cors"
-import cookieParser from "cookie-parser"
 import SongRoutes from "./SongRoutes.js"
 import PlaylistRoute from "./PlaylistRoute.js"
 import SearchRoute from "./SearchRoute.js"
@@ -59,7 +58,6 @@ app.use((req, res, next) => {
     next()
 })
 app.use(cors())
-app.use(cookieParser())
 app.use(express.json())
 SongRoutes(app)
 PlaylistRoute(app)
